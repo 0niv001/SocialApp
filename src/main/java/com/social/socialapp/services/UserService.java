@@ -1,22 +1,22 @@
 package com.social.socialapp.services;
-
+import com.social.socialapp.entity.UserEntity;
 import com.social.socialapp.repository.UserRepo;
-import com.social.socialapp.ui.UserView;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
+import java.util.List;
 import java.util.stream.Collectors;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+
 
 @Service
 @EnableJpaRepositories
 public class UserService implements UserDetailsService {
 
-    private final UserRepo userRepo;
+   private final UserRepo userRepo;
 
     public UserService(UserRepo userRepo) {
         this.userRepo = userRepo;
@@ -24,17 +24,18 @@ public class UserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepo.findByUsername(username)
-                .map(user -> new org.springframework.security.core.userdetails.User(
-                        user.getUsername(),
-                        user.getPassword(),
-                        user.getAuthorities().stream()
-                                .map(role -> new SimpleGrantedAuthority(role.getAuthority()))
-                        .collect(Collectors.toList())
+        UserEntity userEntity = userRepo.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException(username));
 
-                ))
-                .orElseThrow(() -> new UsernameNotFoundException("Username not found"));
+        List<SimpleGrantedAuthority> authorities = List.of(userEntity.getRoles().split(","))
+                .stream()
+                .map(role -> new SimpleGrantedAuthority(role.trim()))
+                .collect(Collectors.toList());
+
+        return new User(userEntity.getUsername(), userEntity.getPassword(), authorities);
     }
+
+
 
 
 }
