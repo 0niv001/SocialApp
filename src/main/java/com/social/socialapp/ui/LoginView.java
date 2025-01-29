@@ -9,6 +9,8 @@ import com.vaadin.flow.server.VaadinService;
 public class LoginView extends Composite<LoginOverlay> {
     public LoginView() {
         getContent().setOpened(true);
+        getContent().setError(true);
+        getContent().setTitle("Login");
         getContent().setAction("login");
 
     }

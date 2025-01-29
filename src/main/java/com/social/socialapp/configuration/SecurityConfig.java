@@ -9,9 +9,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
-import org.springframework.security.web.SecurityFilterChain;
-
-import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 @EnableWebSecurity
@@ -25,9 +22,9 @@ public class SecurityConfig extends VaadinWebSecurity {
 
 
     @Bean
-    public UserDetailsService userDetailsService() throws Exception {
+    public UserDetailsService userDetailsServiceBean() throws Exception {
         return new InMemoryUserDetailsManager(
-                User.withUsername("test").password("{noop}password").roles("USER").build()
+                User.withUsername("test").password("{noop}pass").roles("USER").build()
         );
 
     }
