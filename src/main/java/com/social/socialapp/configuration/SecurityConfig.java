@@ -1,6 +1,6 @@
 package com.social.socialapp.configuration;
+
 import com.social.socialapp.ui.LoginView;
-import com.vaadin.flow.server.auth.AnonymousAllowed;
 import com.vaadin.flow.spring.security.VaadinWebSecurity;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,7 +12,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.SecurityFilterChain;
 
 import java.util.List;
 
@@ -36,6 +35,7 @@ public class SecurityConfig extends VaadinWebSecurity {
                                 .preload(false)));
         setLoginView(http, LoginView.class);
     }
+
     @Bean
     public AuthenticationManager authenticationManager(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();

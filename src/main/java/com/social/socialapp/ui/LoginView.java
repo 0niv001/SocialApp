@@ -6,10 +6,7 @@ import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.login.LoginOverlay;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.server.VaadinService;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -45,6 +42,7 @@ public class LoginView extends Composite<LoginOverlay> {
         });
 
     }
+
     private boolean authenticate(String username, String password) {
         try {
             Authentication authentication = authenticationManager.authenticate(
