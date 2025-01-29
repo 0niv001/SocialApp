@@ -13,8 +13,7 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 
-@Route("")
-@AnonymousAllowed
+@Route("/")
 public class MainView extends VerticalLayout {
     public MainView() {
         H1 title = new H1("SocialHub");

@@ -7,6 +7,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -32,7 +34,10 @@ public class UserService implements UserDetailsService {
                 .map(role -> new SimpleGrantedAuthority(role.trim()))
                 .collect(Collectors.toList());
 
-        return new User(userEntity.getUsername(), userEntity.getPassword(), authorities);
+        return new User(
+                userEntity.getUsername(),
+                userEntity.getPassword(),
+                Collections.singletonList(new SimpleGrantedAuthority(userEntity.getRoles())));
     }
 
 

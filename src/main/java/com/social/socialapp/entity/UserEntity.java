@@ -16,7 +16,6 @@ import java.util.Set;
 @Table(name = "users")
 @NoArgsConstructor
 @AllArgsConstructor
-
 public class UserEntity {
 
     @Id
