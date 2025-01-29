@@ -28,11 +28,13 @@ public class SecurityConfig extends VaadinWebSecurity {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         super.configure(http);
-        http
+        /*http
                 .headers(headers -> headers
                         .httpStrictTransportSecurity(hstsConfig -> hstsConfig
                                 .includeSubDomains(false)
                                 .preload(false)));
+
+         */
         setLoginView(http, LoginView.class);
     }
 
