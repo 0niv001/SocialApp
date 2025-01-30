@@ -5,10 +5,11 @@ import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.auth.AnonymousAllowed;
 import jakarta.annotation.security.PermitAll;
 
 @Route("/")
-@PermitAll
+@AnonymousAllowed
 public class MainView extends VerticalLayout {
     public MainView() {
         H1 title = new H1("SocialHub");
