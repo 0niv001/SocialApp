@@ -1,11 +1,11 @@
 package com.social.socialapp.entity;
 
 import jakarta.persistence.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+//import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
 
-@Document(collection = "Messages")
+//@Document(collection = "Messages")
 public class ChatEntity {
     @Id
     private String id;
