@@ -5,6 +5,7 @@ import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.formlayout.FormLayout;
+import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -68,6 +69,13 @@ public class LoginView extends VerticalLayout {
             break;
         })
          */
+
+
+        //Signup redirect
+        H3 noAccount = new H3("Don't have an account? Click the button to sign up");
+        Button signUpRedirect = new Button("Sign Up");
+        signUpRedirect.addClickListener(e -> {UI.getCurrent().navigate(SignupView.class);});
+
 
 
         FormLayout form = new FormLayout(username, password, login, githubButton);
