@@ -44,12 +44,14 @@ public class UserService implements UserDetailsService {
         UserEntity userEntity = userRepo.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException(username));
 
+        // Get role for user - Redundant? all accounts will have role of Users
+
         /*List<SimpleGrantedAuthority> authorities = List.of(userEntity.getRoles().split(","))
                 .stream()
                 .map(role -> new SimpleGrantedAuthority(role.trim()))
                 .toList();
-
          */
+
         return new User(
                 userEntity.getUsername(),
                 userEntity.getPassword(),

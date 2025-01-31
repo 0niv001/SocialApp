@@ -22,6 +22,7 @@ public class UserView extends VerticalLayout {
     //Homepage for logged in users
     public UserView() {
 
+        //TODO: Make Navbar and Footer reusable
         //TODO: Keep user session once authenticated
 
         Div content = new Div();
@@ -47,7 +48,14 @@ public class UserView extends VerticalLayout {
         Button chat = new Button("Chat", VaadinIcon.CHAT.create());
         chat.addClickListener(e -> {UI.getCurrent().navigate(ChatView.class);});
         Button profile = new Button("Profile", VaadinIcon.USER.create());
-        navBar.add(homeButton, chat, profile,avatar);
+        Button logoutButton = new Button("Logout", VaadinIcon.SIGN_OUT.create());
+
+        //TODO: Add logout functionality
+        //logoutButton.addClickListener(e -> {})
+
+
+
+        navBar.add(homeButton, chat, profile,avatar, logoutButton);
 
 
         //Feed - What to show?

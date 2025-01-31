@@ -9,7 +9,7 @@ import lombok.Setter;
 
 import java.io.Serializable;
 
-
+// User table from SQL Server
 @Setter
 @Getter
 @Entity

@@ -2,6 +2,7 @@ package com.social.socialapp.ui;
 
 import com.social.socialapp.entity.UserEntity;
 import com.social.socialapp.services.UserService;
+import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.formlayout.FormLayout;
@@ -33,7 +34,7 @@ public class SignupView extends VerticalLayout {
 
         // Create the sign-up button
         Button submitButton = new Button("Sign Up", event -> handleSignUp(usernameField, passwordField, confirmPasswordField));
-
+        submitButton.addClickShortcut(Key.ENTER);
         // Layout for the form
         FormLayout formLayout = new FormLayout(usernameField, passwordField, confirmPasswordField, submitButton);
         add(formLayout);

@@ -1,22 +1,22 @@
 package com.social.socialapp.ui;
 
+
 import com.vaadin.flow.component.UI;
+import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.html.Nav;
+import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.dom.ThemeList;
-import com.vaadin.flow.router.Route;
-import com.vaadin.flow.server.auth.AnonymousAllowed;
 import com.vaadin.flow.theme.lumo.Lumo;
-import jakarta.annotation.security.PermitAll;
 
-@Route("/")
-@AnonymousAllowed
-public class MainView extends VerticalLayout {
-    public MainView() {
+// App layout for modular elements
+public class AppLayoutModular extends AppLayout {
+    public AppLayoutModular() {
 
-        //Navbar
+        //NavBar
         H1 title = new H1("SocialHub");
 
         Button toggleButton = new Button("Toggle theme variant", click -> {
@@ -32,14 +32,9 @@ public class MainView extends VerticalLayout {
         // Login Button
         Button signInButton = new Button();
         signInButton.setText("Log In");
-        signInButton.addClickListener(event -> signInButton.getUI().ifPresent(ui -> ui.navigate("login")));
-
-        HorizontalLayout navBar = new HorizontalLayout(title, signInButton, toggleButton);
-        navBar.setWidthFull();
-        navBar.setJustifyContentMode(JustifyContentMode.BETWEEN);
-
-        add(navBar);
+        signInButton.addClickListener(event -> UI.getCurrent().navigate(LoginView.class));
 
 
+       addToNavbar(title, toggleButton, signInButton);
     }
 }

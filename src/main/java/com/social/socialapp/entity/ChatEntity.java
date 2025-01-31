@@ -5,6 +5,11 @@ import jakarta.persistence.Id;
 
 import java.time.LocalDateTime;
 
+//MongoDB chat Object
+/* TODO:
+- Connect entitity to Mongo
+ */
+
 //@Document(collection = "Messages")
 public class ChatEntity {
     @Id

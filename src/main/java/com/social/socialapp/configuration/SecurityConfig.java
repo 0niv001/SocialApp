@@ -25,6 +25,10 @@ public class SecurityConfig extends VaadinWebSecurity {
         this.userDetailsService = userDetailsService;
     }
 
+
+
+    // Override Security configure with Vaadin
+    // TODO: Add OAuth2 Configuration
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         super.configure(http);
@@ -36,7 +40,10 @@ public class SecurityConfig extends VaadinWebSecurity {
 
          */
         setLoginView(http, LoginView.class);
+
+        //setOAuth2LoginPage(http, "/login");
     }
+
 
     @Bean
     public AuthenticationManager authenticationManager(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
@@ -47,6 +54,7 @@ public class SecurityConfig extends VaadinWebSecurity {
     }
 
 
+    // Encrypt passwords
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
