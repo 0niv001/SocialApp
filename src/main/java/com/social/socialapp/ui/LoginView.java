@@ -78,7 +78,7 @@ public class LoginView extends VerticalLayout {
 
 
 
-        FormLayout form = new FormLayout(username, password, login, githubButton);
+        FormLayout form = new FormLayout(username, password, login, githubButton, noAccount, signUpRedirect);
         add(form);
     }
 

@@ -15,6 +15,8 @@ import com.vaadin.flow.server.auth.AnonymousAllowed;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 
+import java.util.Objects;
+
 @Route("/signup")
 @AnonymousAllowed
 public class SignupView extends VerticalLayout {
@@ -46,6 +48,11 @@ public class SignupView extends VerticalLayout {
         String password = passwordField.getValue();
         String confirmPassword = confirmPasswordField.getValue();
 
+        //TODO: Fix validation
+        // Username not empty validation
+        if (Objects.equals(usernameField.getValue(), "")) {
+            Notification.show("Username is required", 3000, Notification.Position.MIDDLE);
+        }
         // Check for password confirmation
         if (!password.equals(confirmPassword)) {
             Notification.show("Passwords do not match", 3000, Notification.Position.MIDDLE);
@@ -58,9 +65,7 @@ public class SignupView extends VerticalLayout {
             return;
         }
 
-        if (usernameField.isEmpty()){
-            Notification.show("Username is required", 3000, Notification.Position.MIDDLE);
-        }
+
         // Register user
         UserEntity registeredUser = userService.registerUser(username, password);
         if (registeredUser != null) {

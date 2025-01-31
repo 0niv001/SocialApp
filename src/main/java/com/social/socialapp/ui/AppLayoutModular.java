@@ -34,6 +34,8 @@ public class AppLayoutModular extends AppLayout {
         signInButton.setText("Log In");
         signInButton.addClickListener(event -> UI.getCurrent().navigate(LoginView.class));
 
+        //Footer
+
 
        addToNavbar(title, toggleButton, signInButton);
     }
