@@ -28,6 +28,8 @@ public class LoginView extends Composite<LoginOverlay> {
         LoginOverlay loginOverlay = getContent();
         getContent().setOpened(true);
         getContent().setTitle("Login");
+
+        //Get data from form and relay to authentication method
         loginOverlay.addLoginListener(event -> {
             String username = event.getUsername();
             String password = event.getPassword();
@@ -43,6 +45,7 @@ public class LoginView extends Composite<LoginOverlay> {
 
     }
 
+    // Authenticate existing user from SQL server
     private boolean authenticate(String username, String password) {
         try {
             Authentication authentication = authenticationManager.authenticate(

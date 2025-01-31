@@ -14,8 +14,6 @@ public class MainView extends VerticalLayout {
     public MainView() {
         H1 title = new H1("SocialHub");
 
-        // NavBar
-
 
 
         // Login Button
@@ -24,13 +22,12 @@ public class MainView extends VerticalLayout {
         signInButton.addClickListener(event -> signInButton.getUI().ifPresent(ui -> ui.navigate("login")));
 
 
-
-
+        //Navbar
         HorizontalLayout navBar = new HorizontalLayout(title, signInButton);
         navBar.setWidthFull();
-
         navBar.setJustifyContentMode(JustifyContentMode.BETWEEN);
 
+        //Footer
 
         add(navBar);
     }

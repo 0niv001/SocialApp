@@ -20,6 +20,7 @@ public class SignupView extends VerticalLayout {
     private UserService userService;
     private AuthenticationManager authenticationManager;
 
+
     @Autowired
     public SignupView(UserService userService, AuthenticationManager authenticationManager) {
         this.userService = userService;
@@ -38,6 +39,7 @@ public class SignupView extends VerticalLayout {
         add(formLayout);
     }
 
+    // Signup functionality connected to SQL Server DB
     private void handleSignUp(TextField usernameField, PasswordField passwordField, PasswordField confirmPasswordField) {
         String username = usernameField.getValue();
         String password = passwordField.getValue();
@@ -55,7 +57,7 @@ public class SignupView extends VerticalLayout {
             return;
         }
 
-        // Register the user
+        // Register user
         UserEntity registeredUser = userService.registerUser(username, password);
         if (registeredUser != null) {
             Notification.show("User successfully registered", 3000, Notification.Position.MIDDLE);

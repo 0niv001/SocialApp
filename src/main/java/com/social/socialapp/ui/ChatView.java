@@ -6,12 +6,15 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.server.VaadinServlet;
 
 public class ChatView extends VerticalLayout {
-    private final ChatService chatService;
+    //private final ChatService chatService;
 
 
+    /*
     public ChatView() {
         this.chatService = VaadinServlet.getCurrent()
                 .getServletContext()
                 .getAttribute(ChatService.class);
     }
+
+     */
 }
