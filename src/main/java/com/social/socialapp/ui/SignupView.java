@@ -58,6 +58,9 @@ public class SignupView extends VerticalLayout {
             return;
         }
 
+        if (usernameField.isEmpty()){
+            Notification.show("Username is required", 3000, Notification.Position.MIDDLE);
+        }
         // Register user
         UserEntity registeredUser = userService.registerUser(username, password);
         if (registeredUser != null) {
