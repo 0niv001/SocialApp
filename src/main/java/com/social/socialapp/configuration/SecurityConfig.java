@@ -2,10 +2,8 @@ package com.social.socialapp.configuration;
 
 import com.social.socialapp.ui.LoginView;
 import com.vaadin.flow.spring.security.VaadinWebSecurity;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -21,13 +19,6 @@ import java.util.List;
 @EnableWebSecurity
 public class SecurityConfig extends VaadinWebSecurity {
 
-    @Autowired
-    private final UserDetailsService userDetailsService;
-
-    @Autowired
-    public SecurityConfig(UserDetailsService userDetailsService) {
-        this.userDetailsService = userDetailsService;
-    }
 
     // Override Security configure with Vaadin
     // TODO: Add OAuth2 Configuration
