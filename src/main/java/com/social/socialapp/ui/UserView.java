@@ -23,7 +23,7 @@ import org.springframework.stereotype.Controller;
 @Route("user")
 @PermitAll
 @PreserveOnRefresh
-public class UserView extends VerticalLayout implements BeforeEnterObserver {
+public class UserView extends VerticalLayout {
 
     @Autowired
     private UserService userService;
@@ -80,8 +80,11 @@ public class UserView extends VerticalLayout implements BeforeEnterObserver {
         add(navBar, content, footer);
     }
 
+    /*
     @Override
     public void beforeEnter(BeforeEnterEvent beforeEnterEvent) {
         UserEntity user = userService.getCurrentUser();
     }
+
+     */
 }

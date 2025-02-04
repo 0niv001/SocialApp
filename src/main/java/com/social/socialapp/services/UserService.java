@@ -46,7 +46,6 @@ public class UserService implements UserDetailsService {
     public boolean authenticateUser(String username, String password) {
         Optional<UserEntity> user = userRepo.findByUsername(username);
         if (user.isPresent() && passwordEncoder.matches(password, user.get().getPassword())) {
-            session.setAttribute("user", user.get());
             return true;
         }
         return false;
@@ -57,23 +56,24 @@ public class UserService implements UserDetailsService {
         UserEntity userEntity = userRepo.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException(username));
 
-        session.setAttribute("user", userEntity);
-
-        List<SimpleGrantedAuthority> authorities = List.of(userEntity.getRoles().split(","))
+        List<SimpleGrantedAuthority> authorities = List.of(userEntity.getRoles())
                 .stream()
-                .map(role -> new SimpleGrantedAuthority(role.trim()))
+                .map(SimpleGrantedAuthority::new)
                 .toList();
 
         return new User(
                 userEntity.getUsername(),
                 userEntity.getPassword(),
-                List.of(new SimpleGrantedAuthority(userEntity.getRoles()))
+                authorities
         );
     }
 
+    /*
     public UserEntity getCurrentUser() {
         return (UserEntity) session.getAttribute("user");
     }
+
+     */
 
     public Optional<UserEntity> findByUsername(String username) {
         return userRepo.findByUsername(username);

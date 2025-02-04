@@ -17,7 +17,9 @@ import org.springframework.stereotype.Controller;
 @Route("chat")
 @PermitAll
 @PreserveOnRefresh
-public class ChatView extends VerticalLayout implements BeforeEnterObserver {
+public class ChatView extends VerticalLayout {
+
+    /*
     @Override
     public void beforeEnter(BeforeEnterEvent beforeEnterEvent) {
         UserEntity user = userService.getCurrentUser();
@@ -25,6 +27,7 @@ public class ChatView extends VerticalLayout implements BeforeEnterObserver {
         ChatView chatView = new ChatView();
     }
 
+     */
     @Autowired
     private UserService userService;
 

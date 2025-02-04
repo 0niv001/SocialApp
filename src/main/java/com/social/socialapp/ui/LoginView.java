@@ -92,6 +92,7 @@ public class LoginView extends VerticalLayout {
                     new UsernamePasswordAuthenticationToken(username, password)
             );
             SecurityContextHolder.getContext().setAuthentication(authentication);
+
             return authentication.isAuthenticated();
         } catch (AuthenticationException e) {
            return false; // Authentication failed
