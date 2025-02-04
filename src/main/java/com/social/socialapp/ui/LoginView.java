@@ -26,8 +26,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 @PageTitle("Login")
 @AnonymousAllowed
 public class LoginView extends VerticalLayout {
+
+    @Autowired
     private UserService userService;
 
+    @Autowired
     private AuthenticationManager authenticationManager;
 
     @Autowired
@@ -74,9 +77,7 @@ public class LoginView extends VerticalLayout {
         //Signup redirect
         H3 noAccount = new H3("Don't have an account? Click the button to sign up");
         Button signUpRedirect = new Button("Sign Up");
-        signUpRedirect.addClickListener(e -> {UI.getCurrent().navigate(SignupView.class);});
-
-
+        signUpRedirect.addClickListener(e -> {UI.getCurrent().navigate(UserView.class);});
 
         FormLayout form = new FormLayout(username, password, login, githubButton, noAccount, signUpRedirect);
         add(form);
@@ -91,8 +92,10 @@ public class LoginView extends VerticalLayout {
             SecurityContextHolder.getContext().setAuthentication(authentication);
             return authentication.isAuthenticated();
         } catch (AuthenticationException e) {
-            return false; // Authentication failed
+           return false; // Authentication failed
         }
     }
+
+    //TODO: Work with HTTP Session to keep user signed in as they use the site
 
 }

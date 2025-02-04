@@ -2,6 +2,7 @@ package com.social.socialapp.services;
 
 import com.social.socialapp.entity.UserEntity;
 import com.social.socialapp.repository.UserRepo;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -11,7 +12,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -23,6 +23,8 @@ public class UserService implements UserDetailsService {
     @Autowired
     private final UserRepo userRepo;
 
+    @Autowired
+    HttpSession session;
     private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     public UserEntity registerUser(String username, String password) {
@@ -39,18 +41,28 @@ public class UserService implements UserDetailsService {
         this.passwordEncoder = new BCryptPasswordEncoder();
     }
 
+
+
+    public boolean authenticateUser(String username, String password) {
+        Optional<UserEntity> user = userRepo.findByUsername(username);
+        if (user.isPresent() && passwordEncoder.matches(password, user.get().getPassword())) {
+            session.setAttribute("user", user.get());
+            return true;
+        }
+        return false;
+    }
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserEntity userEntity = userRepo.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException(username));
 
-        // Get role for user - Redundant? all accounts will have role of Users
+        session.setAttribute("user", userEntity);
 
-        /*List<SimpleGrantedAuthority> authorities = List.of(userEntity.getRoles().split(","))
+        List<SimpleGrantedAuthority> authorities = List.of(userEntity.getRoles().split(","))
                 .stream()
                 .map(role -> new SimpleGrantedAuthority(role.trim()))
                 .toList();
-         */
 
         return new User(
                 userEntity.getUsername(),
@@ -59,7 +71,15 @@ public class UserService implements UserDetailsService {
         );
     }
 
+    public UserEntity getCurrentUser() {
+        return (UserEntity) session.getAttribute("user");
+    }
+
     public Optional<UserEntity> findByUsername(String username) {
         return userRepo.findByUsername(username);
     }
 }
+
+
+// Get role for user - Redundant? all accounts will have role of Users
+
