@@ -10,6 +10,7 @@ import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.router.PreserveOnRefresh;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +43,7 @@ public class SignupView extends VerticalLayout {
         add(formLayout);
     }
 
+
     // Signup functionality connected to SQL Server DB
     private void handleSignUp(TextField usernameField, PasswordField passwordField, PasswordField confirmPasswordField) {
         String username = usernameField.getValue();
@@ -64,6 +66,8 @@ public class SignupView extends VerticalLayout {
             Notification.show("Username is already taken", 3000, Notification.Position.MIDDLE);
             return;
         }
+
+        //TODO: SQL Injection - Check SQL QUERIES, Defang
 
 
         // Register user

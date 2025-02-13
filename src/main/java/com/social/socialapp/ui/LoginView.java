@@ -12,6 +12,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
+import com.vaadin.flow.router.PreserveOnRefresh;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,12 +23,15 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 
-@Route("login")
-@PageTitle("Login")
+@Route("/login")
 @AnonymousAllowed
+@PreserveOnRefresh
 public class LoginView extends VerticalLayout {
+
+    @Autowired
     private UserService userService;
 
+    @Autowired
     private AuthenticationManager authenticationManager;
 
     @Autowired
@@ -49,10 +53,9 @@ public class LoginView extends VerticalLayout {
         login.addClickListener(e -> {
             String username_check = username.getValue();
             String password_check = password.getValue();
-            System.out.println(username);
-            boolean authenticated = authenticate(username_check, password_check);
-            if (authenticated) {
-                UI.getCurrent().navigate(UserView.class);
+            if (authenticate(username_check, password_check)) {
+                UI.getCurrent().navigate("user");
+
             } else {
                 Notification notification = new Notification("Invalid username or password");
                 notification.open();
@@ -74,9 +77,7 @@ public class LoginView extends VerticalLayout {
         //Signup redirect
         H3 noAccount = new H3("Don't have an account? Click the button to sign up");
         Button signUpRedirect = new Button("Sign Up");
-        signUpRedirect.addClickListener(e -> {UI.getCurrent().navigate(SignupView.class);});
-
-
+        signUpRedirect.addClickListener(e -> {UI.getCurrent().navigate(UserView.class);});
 
         FormLayout form = new FormLayout(username, password, login, githubButton, noAccount, signUpRedirect);
         add(form);
@@ -89,10 +90,13 @@ public class LoginView extends VerticalLayout {
                     new UsernamePasswordAuthenticationToken(username, password)
             );
             SecurityContextHolder.getContext().setAuthentication(authentication);
+
             return authentication.isAuthenticated();
         } catch (AuthenticationException e) {
-            return false; // Authentication failed
+           return false; // Authentication failed
         }
     }
+
+    //TODO: Work with HTTP Session to keep user signed in as they use the site
 
 }

@@ -6,16 +6,15 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.security.core.GrantedAuthority;
 
 import java.io.Serializable;
+import java.util.Collection;
 
 // User table from SQL Server
-@Setter
-@Getter
+
 @Entity
 @Table(name = "users")
-@NoArgsConstructor
-@AllArgsConstructor
 public class UserEntity implements Serializable {
 
     @Id
@@ -25,14 +24,14 @@ public class UserEntity implements Serializable {
     @Column(unique = true, nullable = false)
     private String username;
 
-
-    @Column(unique = false, nullable = false)
+    @Column(nullable = false)
     private String password;
 
-
-    @Column(unique = false, nullable = false)
+    @Column(nullable = false)
     private String roles;
 
+    public UserEntity() {
+    }
 
     public Integer getId() {
         return id;
