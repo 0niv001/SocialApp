@@ -23,8 +23,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 
-@Route("login")
-@PageTitle("Login")
+@Route("/login")
 @AnonymousAllowed
 @PreserveOnRefresh
 public class LoginView extends VerticalLayout {
@@ -54,10 +53,9 @@ public class LoginView extends VerticalLayout {
         login.addClickListener(e -> {
             String username_check = username.getValue();
             String password_check = password.getValue();
-            System.out.println(username);
-            boolean authenticated = authenticate(username_check, password_check);
-            if (authenticated) {
-                UI.getCurrent().navigate(UserView.class);
+            if (authenticate(username_check, password_check)) {
+                UI.getCurrent().navigate("user");
+
             } else {
                 Notification notification = new Notification("Invalid username or password");
                 notification.open();

@@ -2,6 +2,7 @@ package com.social.socialapp.services;
 
 import com.social.socialapp.entity.UserEntity;
 import com.social.socialapp.repository.UserRepo;
+import com.social.socialapp.ui.UserView;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -12,19 +13,20 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 
 @Service
 @EnableJpaRepositories
 public class UserService implements UserDetailsService {
 
-    @Autowired
     private final UserRepo userRepo;
 
-    @Autowired
-    HttpSession session;
     private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     public UserEntity registerUser(String username, String password) {
@@ -32,7 +34,7 @@ public class UserService implements UserDetailsService {
         UserEntity userEntity = new UserEntity();
         userEntity.setUsername(username);
         userEntity.setPassword(hashedPassword);
-        userEntity.setRoles("USER");
+        userEntity.setRoles("ROLE_USER");
         return userRepo.save(userEntity);
     }
 
@@ -40,8 +42,6 @@ public class UserService implements UserDetailsService {
         this.userRepo = userRepo;
         this.passwordEncoder = new BCryptPasswordEncoder();
     }
-
-
 
     public boolean authenticateUser(String username, String password) {
         Optional<UserEntity> user = userRepo.findByUsername(username);
@@ -56,15 +56,14 @@ public class UserService implements UserDetailsService {
         UserEntity userEntity = userRepo.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException(username));
 
-        List<SimpleGrantedAuthority> authorities = List.of(userEntity.getRoles())
-                .stream()
-                .map(SimpleGrantedAuthority::new)
-                .toList();
+        //List<SimpleGrantedAuthority> authorities = Stream.of(userEntity.getRoles()).map
+        // (SimpleGrantedAuthority::new).toList();
 
         return new User(
                 userEntity.getUsername(),
                 userEntity.getPassword(),
-                authorities
+                //authorities,
+                Collections.singleton(new SimpleGrantedAuthority("ROLE_USER"))
         );
     }
 
