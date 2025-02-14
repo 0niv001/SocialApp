@@ -10,12 +10,9 @@ import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.authority.mapping.GrantedAuthoritiesMapper;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
-import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -30,13 +27,13 @@ public class SecurityConfig extends VaadinWebSecurity {
         http.authorizeHttpRequests(auth -> {
                     try {
                         auth
-                                .requestMatchers("/user", "/profile", "/chat").hasRole("USER")
-                                .and().formLogin(formLogin -> formLogin.successHandler(new VaadinSavedRequestAwareAuthenticationSuccessHandler()));
+                                .requestMatchers("/user", "/profile").hasRole("USER");
                     } catch (Exception e) {
                         throw new RuntimeException(e);
                     }
                 }
-        );
+        )
+                .formLogin().disable();
         super.configure(http);
         setLoginView(http, LoginView.class);
     }

@@ -5,10 +5,6 @@ import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.H1;
-import com.vaadin.flow.component.html.Nav;
-import com.vaadin.flow.component.orderedlayout.FlexComponent;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
-import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.dom.ThemeList;
 import com.vaadin.flow.theme.lumo.Lumo;
 
@@ -37,6 +33,6 @@ public class AppLayoutModular extends AppLayout {
         //Footer
 
 
-       addToNavbar(title, toggleButton, signInButton);
+        addToNavbar(title, toggleButton, signInButton);
     }
 }

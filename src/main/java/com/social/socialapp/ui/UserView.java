@@ -1,28 +1,25 @@
 package com.social.socialapp.ui;
 
-import com.social.socialapp.entity.UserEntity;
 import com.social.socialapp.services.UserService;
 import com.vaadin.flow.component.HtmlComponent;
 import com.vaadin.flow.component.Text;
-import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.avatar.Avatar;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.html.Input;
 import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.router.BeforeEnterEvent;
-import com.vaadin.flow.router.BeforeEnterObserver;
+import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PreserveOnRefresh;
 import com.vaadin.flow.router.Route;
 import jakarta.annotation.security.PermitAll;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 
 
 @Route("user")
 @PermitAll
-@PreserveOnRefresh
 public class UserView extends VerticalLayout {
 
     @Autowired
@@ -41,50 +38,43 @@ public class UserView extends VerticalLayout {
 
 
         // Avatar
-        Avatar avatar = new Avatar();
+        //Avatar avatar = new Avatar();
 
-        //TODO: Add Profile image to avatar ?pull from MongoDB?
-        //avatar.setImage();
 
         // Navbar
         HorizontalLayout navBar = new HorizontalLayout();
+        navBar.setClassName("navbar");
         navBar.setWidthFull();
 
-        Button homeButton = new Button("Home", VaadinIcon.HOME.create());
-        homeButton.addClickListener(e -> {
-            UI.getCurrent().navigate(UserView.class);});
+        Button home = new Button("Home", VaadinIcon.HOME.create());
+        home.addClickListener(e -> getUI().ifPresent(ui -> ui.navigate("user")));
 
+        Button friends = new Button("Friends", VaadinIcon.CHAT.create());
+        friends.addClickListener(e -> getUI().ifPresent(ui -> ui.navigate("#")));
 
         Button chat = new Button("Chat", VaadinIcon.CHAT.create());
         chat.addClickListener(e -> getUI().ifPresent(ui -> ui.navigate("chat")));
 
-
         Button profile = new Button("Profile", VaadinIcon.USER.create());
+        profile.addClickListener(e -> getUI().ifPresent(ui -> ui.navigate("profile")));
+
         Button logoutButton = new Button("Logout", VaadinIcon.SIGN_OUT.create());
+        logoutButton.addClickListener(e -> {
+            getUI().ifPresent(ui -> ui.navigate("/"));
+            Notification.show("Logout successful", 1000, Notification.Position.MIDDLE);
+        });
 
-        //TODO: Add logout functionality
-        //logoutButton.addClickListener(e -> {})
+        ;
 
 
-        navBar.add(homeButton, chat, profile,avatar, logoutButton);
-
-
-        //Feed - What to show?
-        content.setSizeFull();
+        navBar.add(home, friends, chat, profile, logoutButton);
 
         //Footer
         HorizontalLayout footer = new HorizontalLayout();
         footer.setWidthFull();
         footer.add(new HtmlComponent("footer"), new Text("test"));
 
+
         add(navBar, content, footer);
     }
-
-    /*
-    @Override
-    public void beforeEnter(BeforeEnterEvent beforeEnterEvent) {
-        UserEntity user = userService.getCurrentUser();
-    }
-
-     */
 }
