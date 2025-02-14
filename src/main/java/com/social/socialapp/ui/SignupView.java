@@ -54,6 +54,8 @@ public class SignupView extends VerticalLayout {
         formLayout.add(usernameField, passwordField, confirmPasswordField, submitButton);
         signupDialog.add(formLayout);
         signupDialog.setModal(true);
+        signupDialog.setCloseOnOutsideClick(false);
+        signupDialog.setCloseOnEsc(false);
         signupDialog.open();
         add(signupDialog);
     }
@@ -65,10 +67,22 @@ public class SignupView extends VerticalLayout {
         String password = passwordField.getValue().trim();
         String confirmPassword = confirmPasswordField.getValue().trim();
 
-        if (username.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
-            Notification.show("Fields required", 3000, Notification.Position.MIDDLE);
+        // Check empty fields
+        if (username.isEmpty()) {
+            Notification.show("Username required", 3000, Notification.Position.MIDDLE);
             return;
         }
+
+        if (password.isEmpty()) {
+            Notification.show("Password required", 3000, Notification.Position.MIDDLE);
+            return;
+        }
+
+        if (confirmPassword.isEmpty()) {
+            Notification.show("Confirm Password required", 3000, Notification.Position.MIDDLE);
+            return;
+        }
+
         // Check for password confirmation
         if (!password.equals(confirmPassword)) {
             Notification.show("Passwords do not match", 3000, Notification.Position.MIDDLE);

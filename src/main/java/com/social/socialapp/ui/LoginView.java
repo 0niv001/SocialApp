@@ -49,6 +49,7 @@ public class LoginView extends VerticalLayout {
             }
         });
         loginOverlay.setOpened(true);
+        add(loginOverlay);
 
         //Anchor signUpLink = new Anchor("signup", "Don't have an account? Sign Up");
     }
