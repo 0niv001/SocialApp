@@ -5,12 +5,14 @@ import com.social.socialapp.services.UserService;
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.formlayout.FormLayout;
+import com.vaadin.flow.component.login.LoginI18n;
+import com.vaadin.flow.component.login.LoginOverlay;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.router.PreserveOnRefresh;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +32,14 @@ public class SignupView extends VerticalLayout {
         this.userService = userService;
         this.authenticationManager = authenticationManager;
 
+
+
+        Dialog signupDialog = new Dialog();
+        signupDialog.setHeaderTitle("Create a New Account");
+
+
+        VerticalLayout formLayout = new VerticalLayout();
+
         // Create form fields for the sign-up form
         TextField usernameField = new TextField("Username");
         PasswordField passwordField = new PasswordField("Password");
@@ -37,23 +47,27 @@ public class SignupView extends VerticalLayout {
 
         // Create the sign-up button
         Button submitButton = new Button("Sign Up", event -> handleSignUp(usernameField, passwordField, confirmPasswordField));
+        submitButton.setSizeFull();
         submitButton.addClickShortcut(Key.ENTER);
         // Layout for the form
-        FormLayout formLayout = new FormLayout(usernameField, passwordField, confirmPasswordField, submitButton);
-        add(formLayout);
+
+        formLayout.add(usernameField, passwordField, confirmPasswordField, submitButton);
+        signupDialog.add(formLayout);
+        signupDialog.setModal(true);
+        signupDialog.open();
+        add(signupDialog);
     }
 
 
     // Signup functionality connected to SQL Server DB
     private void handleSignUp(TextField usernameField, PasswordField passwordField, PasswordField confirmPasswordField) {
-        String username = usernameField.getValue();
-        String password = passwordField.getValue();
-        String confirmPassword = confirmPasswordField.getValue();
+        String username = usernameField.getValue().trim();
+        String password = passwordField.getValue().trim();
+        String confirmPassword = confirmPasswordField.getValue().trim();
 
-        //TODO: Fix validation
-        // Username not empty validation
-        if (Objects.equals(usernameField.getValue(), "")) {
-            Notification.show("Username is required", 3000, Notification.Position.MIDDLE);
+        if (username.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
+            Notification.show("Fields required", 3000, Notification.Position.MIDDLE);
+            return;
         }
         // Check for password confirmation
         if (!password.equals(confirmPassword)) {
@@ -66,9 +80,7 @@ public class SignupView extends VerticalLayout {
             Notification.show("Username is already taken", 3000, Notification.Position.MIDDLE);
             return;
         }
-
-        //TODO: SQL Injection - Check SQL QUERIES, Defang
-
+        //TODO: SQL Injection - Check SQL QUERIES, Security Analysis plugin
 
         // Register user
         UserEntity registeredUser = userService.registerUser(username, password);
@@ -80,3 +92,4 @@ public class SignupView extends VerticalLayout {
         }
     }
 }
+
