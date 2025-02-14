@@ -52,6 +52,7 @@ public class UserView extends VerticalLayout {
         navBar.setClassName("navbar");
         navBar.setWidthFull();
 
+
         Button home = new Button("Home", VaadinIcon.HOME.create());
         home.addClickListener(e -> getUI().ifPresent(ui -> ui.navigate("user")));
 
@@ -68,9 +69,6 @@ public class UserView extends VerticalLayout {
             Notification.show("Logout successful", 1000, Notification.Position.MIDDLE);
         });
 
-        ;
-
-
         navBar.add(home, chat, profile, logoutButton);
 
         //Footer
@@ -83,11 +81,15 @@ public class UserView extends VerticalLayout {
         searchBar();
     }
 
+    // Create search bar
     private void searchBar() {
         TextField searchField = new TextField("Find friends...");
         Button searchButton = new Button("Search");
         searchButton.addClickListener(e -> {
             String searchTerm = searchField.getValue().trim();
+            if (searchTerm.isEmpty()) {
+                Notification.show("Search term cannot be empty");
+            }
         });
         HorizontalLayout searchLayout = new HorizontalLayout(searchField, searchButton);
         searchLayout.setAlignItems(Alignment.CENTER);
