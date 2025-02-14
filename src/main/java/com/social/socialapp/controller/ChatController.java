@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Controller
 public class ChatController {
 
-
+    //Controller to send messages
     @MessageMapping("/chat.sendMessage")
     @SendTo("/topic/public")
     public ChatEntity sendMessage(ChatEntity chatMessage) {

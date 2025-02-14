@@ -6,6 +6,8 @@ import com.social.socialapp.repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+
+// Service to add friends
 @Service
 public class FriendService {
 
