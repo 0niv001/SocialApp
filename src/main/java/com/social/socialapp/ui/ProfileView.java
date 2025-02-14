@@ -1,13 +1,19 @@
 package com.social.socialapp.ui;
 
+import com.social.socialapp.entity.UserEntity;
 import com.social.socialapp.services.UserService;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;
-import com.vaadin.flow.component.html.*;
+import com.vaadin.flow.component.html.H2;
+import com.vaadin.flow.component.html.H3;
+import com.vaadin.flow.component.html.Image;
+import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
+
+import java.util.Optional;
 
 
 @Route("/profile")
@@ -18,50 +24,58 @@ public class ProfileView extends VerticalLayout {
 
     public ProfileView(UserService userService) {
         setAlignItems(Alignment.CENTER);
-        setWidth("70%");
 
-        // Profile Section
+        String currentUser = "user";
 
-        HorizontalLayout profileSection = new HorizontalLayout();
-        profileSection.addClassName("profile-section");
-        profileSection.setWidthFull();
-        profileSection.setAlignItems(Alignment.CENTER);
+        Optional<UserEntity> currentUserEntity = userService.findByUsername(currentUser);
+
+        if (currentUserEntity.isPresent()) {
+            UserEntity userEntity = currentUserEntity.get();
+
+            //Profile Section
+            HorizontalLayout profileSection = new HorizontalLayout();
+            profileSection.addClassName("profile-section");
+            profileSection.setWidthFull();
+            profileSection.setAlignItems(Alignment.CENTER);
 
 
-        Image profilePicture = new Image("https://via.placeholder.com/100", "Profile Picture");
-        profilePicture.setWidth("100px");
-        profilePicture.setHeight("100px");
-        profilePicture.getStyle().set("border-radius", "50%");
+            //Profile Picture
+            Image profilePicture = new Image(userEntity.getProfilePicture(), "Profile Picture");
+            profilePicture.setWidth("100px");
+            profilePicture.setHeight("100px");
+            profilePicture.getStyle().set("border-radius", "50%");
 
-        VerticalLayout profileInfo = new VerticalLayout();
-        profileInfo.addClassName("profile-info");
-        profileInfo.add(new H2("Niv"));
-        profileInfo.add(new Paragraph("0niv001 - he/him"));
-        profileInfo.add(new Anchor("https://nivesh.tech", "nivesh.tech"));
-        profileInfo.setSpacing(false);
 
-        Button editProfileButton = new Button("Edit Profile");
-        editProfileButton.addClassName("edit-profile-button");
+            //Show info from DB
+            VerticalLayout profileInfo = new VerticalLayout();
+            profileInfo.addClassName("profile-info");
+            profileInfo.add(new H2(userEntity.getUsername()));
+            profileInfo.add(new Paragraph(userEntity.getName() + " - " + userEntity.getBio()));
+            //profileInfo.add(new Anchor(userEntity.getWebsite()));
+            profileInfo.setSpacing(false);
 
-        profileSection.add(profilePicture, profileInfo, editProfileButton);
+            Button editProfileButton = new Button("Edit Profile");
+            editProfileButton.addClassName("edit-profile-button");
 
-        // Recent Projects Section
-        H3 recentProjectsTitle = new H3("Recent Projects");
-        VerticalLayout projectsSection = new VerticalLayout();
-        projectsSection.addClassName("projects-section");
-        projectsSection.add(
-                createProjectCard("PlaylistMaker", "Scraper that creates a Spotify playlist from Billboard 100.", "Python"),
-                createProjectCard("WebScraper", "HackerNews web scraper that finds the top post.", "Python"),
-                createProjectCard("Android Malware Detection", "ML model for detecting Android malware.", "Jupyter Notebook")
-        );
+            profileSection.add(profilePicture, profileInfo, editProfileButton);
 
-        // Activity Overview
-        H3 activityTitle = new H3("Activity Overview");
-        Paragraph activityDescription = new Paragraph("Recent contributions and project updates.");
+            // Recent Projects Section
+            H3 recentProjectsTitle = new H3("Recent Projects");
+            VerticalLayout projectsSection = new VerticalLayout();
+            projectsSection.addClassName("projects-section");
 
+            H3 activityTitle = new H3("Activity Overview");
+            Paragraph activityDescription = new Paragraph("Recent contributions and project updates.");
+
+
+            add(profileSection, recentProjectsTitle, activityTitle, activityDescription);
+        }
+
+
+
+        /*
         // Add everything to the main layout
-        add(profileSection, recentProjectsTitle, projectsSection, activityTitle, activityDescription);
-    }
+        projectsSection
 
 
     private Div createProjectCard(String title, String description, String tech) {
@@ -87,4 +101,7 @@ public class ProfileView extends VerticalLayout {
         return card;
     }
 
+         */
+
+    }
 }

@@ -38,6 +38,17 @@ public class UserEntity implements Serializable {
     @Column
     private String profilePicture;
 
+    @Column
+    private String email;
+
+    @Column
+    private String website;
+
+    @ElementCollection
+    private Set<String> friends;
+
+    public UserEntity() {
+    }
 
     /*
     @ElementCollection
@@ -48,9 +59,5 @@ public class UserEntity implements Serializable {
 
      */
 
-    @ElementCollection
-    private Set<String> friends;
 
-    public UserEntity() {
-    }
 }
