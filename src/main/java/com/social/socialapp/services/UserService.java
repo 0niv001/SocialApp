@@ -12,6 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 
@@ -71,6 +72,10 @@ public class UserService implements UserDetailsService {
             return Optional.of(username+"/profile");
         }
         return Optional.empty();
+    }
+
+    public List<UserEntity> searchUserByUsername(String username) {
+        return userRepo.findByUsernameContaining(username);
     }
 }
 

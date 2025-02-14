@@ -10,27 +10,37 @@ import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
+import org.springframework.security.core.context.SecurityContextHolder;
 
+import java.util.List;
 import java.util.Optional;
 
 
-@Route("/profile")
+@Route("profile")
 //@RolesAllowed("ROLE_USER")
 @AnonymousAllowed
 @CssImport("./../frontend/styles/styles.css")
 public class ProfileView extends VerticalLayout {
+    private final UserService userService;
 
-    public ProfileView(UserService userService) {
+    private final UserEntity userEntity;
+
+    public ProfileView(UserService userService, UserEntity userEntity) {
+        this.userService = userService;
+        this.userEntity = userEntity;
         setAlignItems(Alignment.CENTER);
 
         String currentUser = "user";
 
+        //String username = userEntity.getUsername();
+
         Optional<UserEntity> currentUserEntity = userService.findByUsername(currentUser);
 
         if (currentUserEntity.isPresent()) {
-            UserEntity userEntity = currentUserEntity.get();
+            userEntity = currentUserEntity.get();
 
             //Profile Section
             HorizontalLayout profileSection = new HorizontalLayout();
@@ -69,6 +79,8 @@ public class ProfileView extends VerticalLayout {
 
 
             add(profileSection, recentProjectsTitle, activityTitle, activityDescription);
+
+
         }
 
 
@@ -104,4 +116,5 @@ public class ProfileView extends VerticalLayout {
          */
 
     }
+
 }
